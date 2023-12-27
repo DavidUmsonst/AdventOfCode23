@@ -93,7 +93,7 @@ with open("./Day1/input") as file:
     lines = [line.rstrip() for line in file]
 
 N_lines = len(lines)
-elements = ["0", "1", "2","3","4","5","6","7","8","9"]#,"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+elements = ["0", "1", "2","3","4","5","6","7","8","9","one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 
 result = 0
 for i in range(N_lines):
