@@ -72,7 +72,7 @@ def generate_number_entries_and_index_matrix(lines):
                     getting_new_number = False
                     new_number = ''
                     number_counter +=1
-    # print(number_counter)
+                    
     return list_of_numbers, index_matrix, gear_matrix
 
 def check_if_number_is_valid(number: NumberEntry, index_matrix):
@@ -89,7 +89,7 @@ def check_if_number_is_valid(number: NumberEntry, index_matrix):
     return is_valid
 
 def get_result(lines):
-    numbers, index_matrix, gear_matrix = generate_number_entries_and_index_matrix(lines)
+    numbers, index_matrix, _ = generate_number_entries_and_index_matrix(lines)
     result = 0
     for number in numbers:
         if check_if_number_is_valid(number,index_matrix):
@@ -97,14 +97,41 @@ def get_result(lines):
     return result
 
 def get_gear_ratio_result(lines):
-    numbers, index_matrix, gear_matrix = generate_number_entries_and_index_matrix(lines)
+    numbers, _, gear_matrix = generate_number_entries_and_index_matrix(lines)
+    n_rows, n_columns = gear_matrix.shape
+    result = 0
+    for i in range(n_rows):
+        for j in range(n_columns):
+            if gear_matrix[i,j] == -1:
+                x_start = np.max([0,i-1])
+                x_end = np.min([n_rows,i+2])
+                y_start = np.max([0,j-1])
+                y_end = np.min([n_columns,j+2])
+                gear_matrix_slice = gear_matrix[x_start:x_end,y_start:y_end]
+                unique_values = np.unique(gear_matrix_slice)
+                factor1 = 0
+                factor2 = 0
+                first_value_found = False
+                for value in unique_values:
+                    if value>0:
+                        if not first_value_found:
+                            factor1 = numbers[int(value-1)].get_value()
+                            first_value_found = True
+                        else:
+                            factor2 = numbers[int(value-1)].get_value()
+
+                result += factor1*factor2
     
+    return result
+                
+
 
 with open("./Day3/input") as file:    
     lines = [line.rstrip() for line in file]
 
-numbers, index_matrix, gear_matrix = generate_number_entries_and_index_matrix(lines)
-
 result = get_result(lines)
 
 print(result)
+
+result_task_2 = get_gear_ratio_result(lines)
+print(result_task_2)
