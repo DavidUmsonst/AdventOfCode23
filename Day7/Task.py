@@ -92,8 +92,8 @@ class Hand:
                 hand_value = 7
             elif 4 in card_counter_values:
                 # four of a kind
-                if is_joker_present and self._card_counter['J'] == 1:
-                    # if joker is remaining card, the hand turns into five of a kind
+                if is_joker_present:
+                    # if joker is present, the hand turns into five of a kind
                     hand_value = 7
                 else:
                     hand_value = 6
@@ -177,5 +177,5 @@ solution = 0
 for i, hand in enumerate(hands):
     solution += (i+1)*hand.get_bid()
 
-print(f"The solution for the first task is {solution}")
+print(f"The solution of the task is {solution}")
 
